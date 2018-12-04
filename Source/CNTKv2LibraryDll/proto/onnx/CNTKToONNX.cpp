@@ -44,7 +44,7 @@ private:
     //
     // Flag showing which post processing is required for the current exported model.
     //
-    enum class PostProcessFlag
+    enum class PostProcessFlag : unsigned int
     {
         MaxUnPooling = 0,
     };
@@ -5394,7 +5394,7 @@ void CNTKToONNXHelper::PostProcessGraph(onnxruntime::Graph* graph)
 {
     std::unordered_map<std::string, vector<onnxruntime::Node*>> maxPoolInputNameToNodeMap;
 
-    for (auto postProcessFlag : postProcessFlags)
+    for (const auto& postProcessFlag : postProcessFlags)
     {
         switch (postProcessFlag)
         {
