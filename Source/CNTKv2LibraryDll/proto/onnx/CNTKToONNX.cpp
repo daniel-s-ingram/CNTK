@@ -5416,7 +5416,7 @@ void CNTKToONNXHelper::PostProcessGraph(onnxruntime::Graph* graph)
                     Node* maxPoolNode = [&]()->Node* {
                         const std::string& inputName = node.InputDefs()[1]->Name();
                         if (maxPoolInputNameToNodeMap.find(inputName) == maxPoolInputNameToNodeMap.end())
-                            LogicError("MaxUnpool: cannot find the original input variable to MaxPool. ");
+                            LogicError("MaxUnpool: cannot find the original input variable to MaxPool.");
 
                         auto unpoolAttributes = node.GetAttributes();
                         for (auto poolNode : maxPoolInputNameToNodeMap[inputName])
@@ -5426,13 +5426,13 @@ void CNTKToONNXHelper::PostProcessGraph(onnxruntime::Graph* graph)
                                 return poolNode;
                         }
 
-                        LogicError("MaxUnpool: cannot find the MaxPool node of original input with the same kernel_shape, strides and pads configuration. ");
+                        LogicError("MaxUnpool: cannot find the MaxPool node of original input with the same kernel_shape, strides and pads configuration.");
                     }();
 
                     // need to update maxpool node with optional indices output.
                     if (maxPoolNode->OutputDefs().size() != 2)
                     {
-                        // Dimensions must be the same as input tensor X
+                        // Dimensions must be the same as input tensor.
                         onnx::TypeProto indicesOutputTypeProto = *(node.InputDefs()[0]->TypeAsProto());
                         indicesOutputTypeProto.mutable_tensor_type()->set_elem_type(TensorProto_DataType::TensorProto_DataType_INT64);
                         auto indiciesOutputName = UniqueNodeNameStorage::GetUniqueNodeNameWithoutUid(maxPoolNode->Name() + "_indices_output");
